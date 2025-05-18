@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random People Drawer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .person {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+    #summary {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎲 Random People Drawer</h1>
+  <button id="drawBtn">Draw 10 People</button>
+  <div id="output"></div>
+  <div id="summary"></div>
+
+  <script>
+    // ----- CONFIGURABLE TRAITS -----
+    const handednessRate = 0.11;  // 11% chance left-handed
+    const hairColors = ['Black', 'Brown', 'Blonde', 'Gray', 'Red'];
+    const nationalities = [
+      'Han Chinese', 'Indian (Punjabi)', 'Nigerian (Yoruba)', 'Mexican',
+      'Ethiopian (Amhara)', 'Russian', 'Brazilian (Afro-Brazilian)', 
+      'Filipino (Tagalog)', 'Turkish', 'Swedish'
+    ];
+    const genders = ['Male', 'Female'];
+
+    // pick one item at random from an array
+    function randomPick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // simulate one draw of 10 people
+    function drawPeople() {
+      const output = document.getElementById('output');
+      const summary = document.getElementById('summary');
+      output.innerHTML = '';
+      let leftCount = 0;
+
+      for (let i = 1; i <= 10; i++) {
+        const age = Math.floor(Math.random() * 73) + 5; // 5–77 yrs
+        const gender = randomPick(genders);
+        const handedness = Math.random() < handednessRate ? 'Left' : 'Right';
+        if (handedness === 'Left') leftCount++;
+        const hair = randomPick(hairColors);
+        const nation = randomPick(nationalities);
+
+        const div = document.createElement('div');
+        div.className = 'person';
+        div.textContent = `Person ${i}: ${age} yrs | ${gender} | ${handedness}-handed | ${hair} hair | ${nation}`;
+        output.appendChild(div);
+      }
+
+      summary.textContent = `You got ${leftCount} left-handed ${leftCount === 1 ? 'person' : 'people'} in this draw.`;
+    }
+
+    document.getElementById('drawBtn').addEventListener('click', drawPeople);
+  </script>
+
+</body>
+</html>
